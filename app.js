@@ -6,7 +6,10 @@
   let compWins = 0;
 
   function selectNumOfRounds() {
-    rounds = getPlayerInput('How many rounds do you want to play? (Up to 10)', isValidNumOfRounds);
+    rounds = getPlayerInput(
+      'How many rounds do you want to play? (Up to 10)',
+      isValidNumOfRounds
+    );
   }
 
   function isValidNumOfRounds(input) {
@@ -22,20 +25,22 @@
     if (typeof choice === 'string') return CHOICES.includes(choice);
   }
 
-  function getPlayerInput(message = "What's your choice? Rock, Paper, or Scissors?", validationHandler) {
+  function getPlayerInput(message, validationHandler) {
     const input = prompt(message);
     const sanitisedInput = sanitisePlayerInput(input);
-    const validInput = validationHandler(sanitisedInput) ? sanitisedInput : getPlayerInput(message, validationHandler);
+    const validInput = validationHandler(sanitisedInput) ?
+      sanitisedInput : getPlayerInput(message, validationHandler);
 
     return validInput;
   }
 
-  function randomNumber(max = 3) {
+  function randomNumber(max) {
     return Math.floor((Math.random() * max));
   }
 
   function computerPlay() {
-    return CHOICES[randomNumber()];
+    const max = CHOICES.length;
+    return CHOICES[randomNumber(max)];
   }
 
   function resolveRound(playerChoice, compChoice) {
@@ -89,7 +94,11 @@
   }
 
   function playRounds() {
-    const playerChoice = getPlayerInput("What's your choice? Rock, Paper, or Scissors?", isValidPlayerChoice);
+    const playerChoice = getPlayerInput(
+      "What's your choice? Rock, Paper, or Scissors?",
+      isValidPlayerChoice
+    );
+
     const compChoice = computerPlay();
     const result = resolveRound(playerChoice, compChoice);
 

@@ -69,6 +69,25 @@
     console.log('Current scores:', `\nPlayer: ${playerWins}\nComputer: ${compWins}`);
   }
 
+  function announceFinalResult() {
+    let finalResult = '';
+
+    switch (true) {
+      case (playerWins === compWins):
+        finalResult = 'DRAW';
+        break;
+      case (playerWins > compWins):
+        finalResult = 'PLAYER WINS';
+        break;
+      case (playerWins < compWins):
+        finalResult = 'COMPUTER WINS';
+        break;
+    }
+
+    console.log('FINAL SCORES', `\nPlayer: ${playerWins}\nComputer: ${compWins}`);
+    console.log(finalResult);
+  }
+
   function playRounds() {
     const playerChoice = getPlayerInput("What's your choice? Rock, Paper, or Scissors?", isValidPlayerChoice);
     const compChoice = computerPlay();
@@ -83,9 +102,10 @@
   selectNumOfRounds();
 
   for (round = 0; round < rounds; round++) {
-    console.log('Round', round + 1);
     playRounds();
   }
+
+  announceFinalResult();
 
   /*** Game ends here ***/
 

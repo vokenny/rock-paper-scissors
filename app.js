@@ -1,64 +1,95 @@
 (function () {
-  const choices = ['ROCK', 'PAPER', 'SCISSORS'];
+  const CHOICES = ['ROCK', 'PAPER', 'SCISSORS'];
 
-  function computerPlay() {
-    return choices[randomNumber()];
+  let rounds = 0;
+  let playerWins = 0;
+  let compWins = 0;
+
+  function selectNumOfRounds() {
+    rounds = getPlayerInput('How many rounds do you want to play? (Up to 10)', isValidNumOfRounds);
+  }
+
+  function isValidNumOfRounds(input) {
+    const number = parseInt(input);
+    return (number > 0 && number <= 10);
+  }
+
+  function sanitisePlayerInput(input) {
+    return input.trim().toUpperCase();
+  }
+
+  function isValidPlayerChoice(choice) {
+    if (typeof choice === 'string') return CHOICES.includes(choice);
+  }
+
+  function getPlayerInput(message = "What's your choice? Rock, Paper, or Scissors?", validationHandler) {
+    const input = prompt(message);
+    const sanitisedInput = sanitisePlayerInput(input);
+    const validInput = validationHandler(sanitisedInput) ? sanitisedInput : getPlayerInput(message, validationHandler);
+
+    return validInput;
   }
 
   function randomNumber(max = 3) {
     return Math.floor((Math.random() * max));
   }
 
-  function playRound() {
-    const playerChoice = getPlayerInput();
-    const sanitisedInput = sanitiseInput(playerChoice);
-
-    if (isValidPlayerChoice(sanitisedInput)) {
-      announceResults(sanitisedInput, computerPlay())
-    } else {
-      console.log('Please submit a valid choice');
-      playRound();
-    }
+  function computerPlay() {
+    return CHOICES[randomNumber()];
   }
 
-  function getPlayerInput(message = "What's your choice? Rock, Paper, or Scissors?") {
-    return prompt(message);
-  }
-
-  function sanitiseInput(playerChoice) {
-    return playerChoice.trim().toUpperCase();
-  }
-
-  function isValidPlayerChoice(choice) {
-    return choices.includes(choice)
-  }
-
-  function announceResults(playerChoice, compChoice) {
+  function resolveRound(playerChoice, compChoice) {
     let result = '';
 
     switch (true) {
       case (playerChoice === compChoice):
         result = 'DRAW';
         break;
-      case (playerChoice === choices[0]):
-        result = compChoice === choices[1] ? 'LOSE' : 'WIN';
+      case (playerChoice === CHOICES[0]):
+        result = compChoice === CHOICES[1] ? 'LOSE' : 'WIN';
         break;
-      case (playerChoice === choices[1]):
-        result = compChoice === choices[2] ? 'LOSE' : 'WIN';
+      case (playerChoice === CHOICES[1]):
+        result = compChoice === CHOICES[2] ? 'LOSE' : 'WIN';
         break;
-      case (playerChoice === choices[2]):
-        result = compChoice === choices[0] ? 'LOSE' : 'WIN';
+      case (playerChoice === CHOICES[2]):
+        result = compChoice === CHOICES[0] ? 'LOSE' : 'WIN';
         break;
     }
 
-    console.log(result, `\nYou chose: ${playerChoice}\nComputer chose: ${compChoice}`)
+    return result;
   }
 
-  /* Game begins here */
-  playRound();
+  function updateScores(result) {
+    if (result === 'WIN') playerWins++;
+    if (result === 'LOSE') compWins++;
+  }
 
-  /* Testing random distribution */
+  function announceResults(result, playerChoice, compChoice) {
+    console.log(result, `\nYou chose: ${playerChoice}\nComputer chose: ${compChoice}`);
+    console.log('Current scores:', `\nPlayer: ${playerWins}\nComputer: ${compWins}`);
+  }
 
+  function playRounds() {
+    const playerChoice = getPlayerInput("What's your choice? Rock, Paper, or Scissors?", isValidPlayerChoice);
+    const compChoice = computerPlay();
+    const result = resolveRound(playerChoice, compChoice);
+
+    updateScores(result);
+    announceResults(result, playerChoice, compChoice);
+  }
+
+  /*** Game begins here ***/
+
+  selectNumOfRounds();
+
+  for (round = 0; round < rounds; round++) {
+    console.log('Round', round + 1);
+    playRounds();
+  }
+
+  /*** Game ends here ***/
+
+  /*** Testing random distribution ***/
   // let rockCount = 0;
   // let paperCount = 0;
   // let scissorsCount = 0;

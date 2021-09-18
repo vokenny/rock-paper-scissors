@@ -102,6 +102,7 @@
   selectNumOfRounds();
 
   for (round = 0; round < rounds; round++) {
+    console.log('Round', round + 1);
     playRounds();
   }
 

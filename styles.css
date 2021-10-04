@@ -18,20 +18,54 @@ body {
 }
 
 main {
-  display: grid;
-  justify-content: center;
-}
-
-#scores {
-  width: 60vw;
-  display: flex;
-  justify-content: space-around;
   margin: auto;
 }
 
 #game-zone {
-  width: 90vw;
+  width: 50vw;
+  max-width: 1200px;
   display: flex;
   justify-content: space-around;
   margin: auto;
+}
+
+#player-zone,
+#comp-zone {
+  width: 100%;
+}
+
+.scores {
+  text-align: center;
+}
+
+#player-choices,
+#comp-choices {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.choice {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 5vh 0;
+}
+
+.button {
+  background-color: ghostwhite;
+  border: 2px solid darkcyan;
+  height: 80px;
+}
+
+@media screen and (max-width: 1200px) {
+  #game-zone {
+    width: 70vw;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #game-zone {
+    width: 90vw;
+  }
 }

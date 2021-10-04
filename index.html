@@ -5,6 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="./styles.css" />
     <script src="app.js" defer></script>
 
@@ -20,7 +27,7 @@
         <div id="player-zone">
           <div class="scores">
             <h2>Player</h2>
-            <h3 id="player-score">10</h3>
+            <h3 id="player-score" class="score">10</h3>
           </div>
 
           <div id="player-choices">
@@ -41,20 +48,20 @@
         <div id="comp-zone">
           <div class="scores">
             <h2>Computer</h2>
-            <h3 id="comp-score">10</h3>
+            <h3 id="comp-score" class="score">10</h3>
           </div>
 
           <div id="comp-choices">
             <div class="choice">
-              <button id="rock" class="button">Rock</button>
+              <button id="rock" class="button" disabled>Rock</button>
             </div>
 
             <div class="choice">
-              <button id="paper" class="button">Paper</button>
+              <button id="paper" class="button" disabled>Paper</button>
             </div>
 
             <div class="choice">
-              <button id="scissors" class="button">Scissors</button>
+              <button id="scissors" class="button" disabled>Scissors</button>
             </div>
           </div>
         </div>

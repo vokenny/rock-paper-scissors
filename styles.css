@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  font-family: 'VT323', monospace;
 }
 
 html {
@@ -7,14 +8,20 @@ html {
   padding: 0;
   height: 100vh;
   width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 body {
-  background-color: bisque;
+  background-color: #0b5394;
+  color: #eaedef;
 }
 
 #game-title {
   text-align: center;
+  font-size: 4em;
+  margin: 2vh;
 }
 
 main {
@@ -36,6 +43,16 @@ main {
 
 .scores {
   text-align: center;
+  font-size: 1.2rem;
+}
+
+.score {
+  color: #eaedef;
+  font-size: 2em;
+}
+
+.scores > * {
+  margin: 2vh;
 }
 
 #player-choices,
@@ -49,13 +66,26 @@ main {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: 5vh 0;
+  margin: 3vh 0;
 }
 
 .button {
-  background-color: ghostwhite;
-  border: 2px solid darkcyan;
+  background-color: #e0ffff;
+  border: 5px solid #00b7eb;
+  border-radius: 6px;
   height: 80px;
+  width: 50%;
+  min-width: 120px;
+  max-width: 150px;
+  font-size: 1.7em;
+}
+
+#player-choices .button:hover {
+  transform: scale(1.1);
+}
+
+#player-choices .button:active {
+  border-color: #ffcc33;
 }
 
 @media screen and (max-width: 1200px) {
@@ -67,5 +97,11 @@ main {
 @media screen and (max-width: 600px) {
   #game-zone {
     width: 90vw;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  #game-title {
+    font-size: 3em;
   }
 }

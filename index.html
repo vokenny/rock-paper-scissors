@@ -27,20 +27,22 @@
         <div id="player-zone">
           <div class="scores">
             <h2>Player</h2>
-            <h3 id="player-score" class="score">10</h3>
+            <h3 id="player-score" class="score">0</h3>
           </div>
 
           <div id="player-choices">
             <div class="choice">
-              <button id="rock" class="button">Rock</button>
+              <button id="rock" class="button" value="rock">Rock</button>
             </div>
 
             <div class="choice">
-              <button id="paper" class="button">Paper</button>
+              <button id="paper" class="button" value="paper">Paper</button>
             </div>
 
             <div class="choice">
-              <button id="scissors" class="button">Scissors</button>
+              <button id="scissors" class="button" value="scissors">
+                Scissors
+              </button>
             </div>
           </div>
         </div>
@@ -48,23 +50,28 @@
         <div id="comp-zone">
           <div class="scores">
             <h2>Computer</h2>
-            <h3 id="comp-score" class="score">10</h3>
+            <h3 id="comp-score" class="score">0</h3>
           </div>
 
           <div id="comp-choices">
             <div class="choice">
-              <button id="rock" class="button" disabled>Rock</button>
+              <button id="comp-rock" class="button" disabled>Rock</button>
             </div>
 
             <div class="choice">
-              <button id="paper" class="button" disabled>Paper</button>
+              <button id="comp-paper" class="button" disabled>Paper</button>
             </div>
 
             <div class="choice">
-              <button id="scissors" class="button" disabled>Scissors</button>
+              <button id="comp-scissors" class="button" disabled>
+                Scissors
+              </button>
             </div>
           </div>
         </div>
+
+        <!-- TODO: Use a modal overlay for the results instead, and allow for restarting game -->
+        <div id="results-zone" hidden></div>
       </section>
     </main>
   </body>

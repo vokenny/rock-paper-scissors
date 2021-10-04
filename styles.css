@@ -88,6 +88,10 @@ main {
   border-color: #ffcc33;
 }
 
+#results-zone {
+  font-size: 5em;
+}
+
 @media screen and (max-width: 1200px) {
   #game-zone {
     width: 70vw;

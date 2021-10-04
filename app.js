@@ -1,38 +1,9 @@
 (function () {
-  const CHOICES = ['ROCK', 'PAPER', 'SCISSORS'];
+  const CHOICES = ['rock', 'paper', 'scissors'];
+  const SCORE_TO_WIN = 5;
 
-  let rounds = 0;
   let playerWins = 0;
   let compWins = 0;
-
-  function selectNumOfRounds() {
-    rounds = getPlayerInput(
-      'How many rounds do you want to play? (Up to 10)',
-      isValidNumOfRounds
-    );
-  }
-
-  function isValidNumOfRounds(input) {
-    const number = parseInt(input);
-    return (number > 0 && number <= 10);
-  }
-
-  function sanitisePlayerInput(input) {
-    return input.trim().toUpperCase();
-  }
-
-  function isValidPlayerChoice(choice) {
-    if (typeof choice === 'string') return CHOICES.includes(choice);
-  }
-
-  function getPlayerInput(message, validationHandler) {
-    const input = prompt(message);
-    const sanitisedInput = sanitisePlayerInput(input);
-    const validInput = validationHandler(sanitisedInput) ?
-      sanitisedInput : getPlayerInput(message, validationHandler);
-
-    return validInput;
-  }
 
   function randomNumber(max) {
     return Math.floor((Math.random() * max));
@@ -67,55 +38,46 @@
   function updateScores(result) {
     if (result === 'WIN') playerWins++;
     if (result === 'LOSE') compWins++;
+
+    const playerScore = document.querySelector('#player-score');
+    const compScore = document.querySelector('#comp-score');
+
+    playerScore.textContent = playerWins;
+    compScore.textContent = compWins;
   }
 
-  function announceResults(result, playerChoice, compChoice) {
-    console.log(result, `\nYou chose: ${playerChoice}\nComputer chose: ${compChoice}`);
-    console.log('Current scores:', `\nPlayer: ${playerWins}\nComputer: ${compWins}`);
+  function showResultsScreen() {
+    const playerZone = document.querySelector('#player-zone');
+    const compZone = document.querySelector('#comp-zone');
+    const resultsZone = document.querySelector('#results-zone');
+
+    resultsZone.textContent = playerWins > compWins ? 'PLAYER WINS' : 'COMPUTER WINS';
+
+    playerZone.setAttribute('hidden', '');
+    compZone.setAttribute('hidden', '');
+    resultsZone.removeAttribute('hidden', '');
   }
 
-  function announceFinalResult() {
-    let finalResult = '';
+  function playRound(event) {
+    let playerChoice = event.target.value;
+    let compChoice = computerPlay();
 
-    switch (true) {
-      case (playerWins === compWins):
-        finalResult = 'DRAW';
-        break;
-      case (playerWins > compWins):
-        finalResult = 'PLAYER WINS';
-        break;
-      case (playerWins < compWins):
-        finalResult = 'COMPUTER WINS';
-        break;
-    }
-
-    console.log('FINAL SCORES', `\nPlayer: ${playerWins}\nComputer: ${compWins}`);
-    console.log(finalResult);
-  }
-
-  function playRounds() {
-    const playerChoice = getPlayerInput(
-      "What's your choice? Rock, Paper, or Scissors?",
-      isValidPlayerChoice
-    );
-
-    const compChoice = computerPlay();
     const result = resolveRound(playerChoice, compChoice);
 
     updateScores(result);
-    announceResults(result, playerChoice, compChoice);
+
+    if (playerWins === SCORE_TO_WIN || compWins === SCORE_TO_WIN) {
+      showResultsScreen();
+    }
   }
 
   /*** Game begins here ***/
 
-  selectNumOfRounds();
+  const playerButtons = Array.from(document.querySelectorAll('#player-choices .button'));
 
-  for (round = 0; round < rounds; round++) {
-    console.log('Round', round + 1);
-    playRounds();
-  }
-
-  announceFinalResult();
+  playerButtons.forEach(button => {
+    button.addEventListener('click', playRound);
+  });
 
   /*** Game ends here ***/
 
@@ -145,5 +107,4 @@
   // }
 
   // logCounts();
-
 })();

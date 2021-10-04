@@ -4,9 +4,59 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="app.js" defer></script>
+
     <title>Rock, Paper, Scissors</title>
   </head>
   <body>
-    <script src="app.js"></script>
+    <header>
+      <h1 id="game-title">Rock, Paper, Scissors</h1>
+    </header>
+
+    <main>
+      <section id="scores">
+        <div id="player-scores-container">
+          <h2>Player</h2>
+          <h3 id="player-score">10</h3>
+        </div>
+
+        <div id="comp-scores-container">
+          <h2>Computer</h2>
+          <h3 id="comp-score">10</h3>
+        </div>
+      </section>
+
+      <section id="game-zone">
+        <section id="player-choices">
+          <div class="choice">
+            <button id="rock" class="button">Rock</button>
+          </div>
+
+          <div class="choice">
+            <button id="paper" class="button">Paper</button>
+          </div>
+
+          <div class="choice">
+            <button id="scissors" class="button">Scissors</button>
+          </div>
+        </section>
+
+        <section id="comp-choices">
+          <div class="choice">
+            <button id="rock" class="button">Rock</button>
+          </div>
+
+          <div class="choice">
+            <button id="paper" class="button">Paper</button>
+          </div>
+
+          <div class="choice">
+            <button id="scissors" class="button">Scissors</button>
+          </div>
+        </section>
+      </section>
+    </main>
   </body>
 </html>

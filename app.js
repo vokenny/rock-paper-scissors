@@ -56,9 +56,14 @@
     playerZone.setAttribute('hidden', '');
     compZone.setAttribute('hidden', '');
     resultsZone.removeAttribute('hidden', '');
+
+    // TODO: add 'Restart game' button with JS to reset state of game and scores
   }
 
   function playRound(event) {
+    // TODO: Visually show player and comp choices for 2 seconds
+    // Disable buttons during the timeout, then reset
+
     let playerChoice = event.target.value;
     let compChoice = computerPlay();
 

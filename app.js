@@ -47,14 +47,14 @@
   }
 
   function showResultsScreen() {
-    const playerZone = document.querySelector('#player-zone');
-    const compZone = document.querySelector('#comp-zone');
+    const playerChoices = document.querySelector('#player-choices');
+    const compChoices = document.querySelector('#comp-choices');
     const resultsZone = document.querySelector('#results-zone');
 
     resultsZone.textContent = playerWins > compWins ? 'PLAYER WINS' : 'COMPUTER WINS';
 
-    playerZone.setAttribute('hidden', '');
-    compZone.setAttribute('hidden', '');
+    playerChoices.setAttribute('hidden', '');
+    compChoices.setAttribute('hidden', '');
     resultsZone.removeAttribute('hidden', '');
 
     // TODO: add 'Restart game' button with JS to reset state of game and scores

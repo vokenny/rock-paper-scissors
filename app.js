@@ -2,6 +2,14 @@
   const CHOICES = ['rock', 'paper', 'scissors'];
   const SCORE_TO_WIN = 5;
 
+  const playerChoices = document.querySelector('#player-choices');
+  const compChoices = document.querySelector('#comp-choices');
+  const resultsZone = document.querySelector('#results-zone');
+
+  const restartButtonHtml = `<div class="choice">
+      <button id="restart" class="button">Restart</button>
+    </div>`;
+
   let playerWins = 0;
   let compWins = 0;
 
@@ -46,18 +54,29 @@
     compScore.textContent = compWins;
   }
 
-  function showResultsScreen() {
-    const playerChoices = document.querySelector('#player-choices');
-    const compChoices = document.querySelector('#comp-choices');
-    const resultsZone = document.querySelector('#results-zone');
+  function showResultsZone() {
+    const finalResult = playerWins > compWins ? 'PLAYER WINS' : 'COMPUTER WINS';
+    const resultsHtml = `<h1 id="final-score">${finalResult}</h1> ${restartButtonHtml}`
 
-    resultsZone.textContent = playerWins > compWins ? 'PLAYER WINS' : 'COMPUTER WINS';
+    resultsZone.innerHTML = resultsHtml;
+
+    const restartButton = document.querySelector('#restart');
+    restartButton.addEventListener('click', restartGame);
 
     playerChoices.setAttribute('hidden', '');
     compChoices.setAttribute('hidden', '');
     resultsZone.removeAttribute('hidden', '');
+  }
 
-    // TODO: add 'Restart game' button with JS to reset state of game and scores
+  function restartGame() {
+    playerWins = 0;
+    compWins = 0;
+
+    updateScores();
+
+    playerChoices.removeAttribute('hidden', '');
+    compChoices.removeAttribute('hidden', '');
+    resultsZone.setAttribute('hidden', '');
   }
 
   function playRound(event) {
@@ -72,7 +91,7 @@
     updateScores(result);
 
     if (playerWins === SCORE_TO_WIN || compWins === SCORE_TO_WIN) {
-      showResultsScreen();
+      showResultsZone();
     }
   }
 

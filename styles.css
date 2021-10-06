@@ -24,7 +24,8 @@ body {
   color: var(--fg-color);
 }
 
-#game-title {
+#game-title,
+#final-score {
   text-align: center;
   font-size: 4em;
   margin: 10vh 0;
@@ -80,8 +81,14 @@ main {
   font-size: 1.7em;
 }
 
-#player-choices .button:hover {
+.button:hover {
   transform: scale(1.1);
+  cursor: pointer;
+}
+
+.button[disabled] {
+  transform: none;
+  cursor: default;
 }
 
 #player-choices .button:active {
@@ -89,7 +96,6 @@ main {
 }
 
 #results-zone {
-  font-size: 5em;
   text-align: center;
 }
 

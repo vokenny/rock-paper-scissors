@@ -65,7 +65,7 @@
     resultsZone.innerHTML = resultsHtml;
 
     const restartButton = document.querySelector('#restart');
-    restartButton.addEventListener('click', restartGame);
+    restartButton.addEventListener('click', restartGame, { once: true });
 
     playerChoices.setAttribute('hidden', '');
     compChoices.setAttribute('hidden', '');
@@ -73,9 +73,6 @@
   }
 
   function restartGame() {
-    const restartButton = document.querySelector('#restart');
-    restartButton.removeEventListener('click', restartGame);
-
     playerWins = 0;
     compWins = 0;
 

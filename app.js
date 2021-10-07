@@ -1,9 +1,16 @@
 (function () {
+  /* CONSTANTS */
   const CHOICES = ['rock', 'paper', 'scissors'];
   const SCORE_TO_WIN = 5;
+  const REVIEW_ROUND_PAUSE = 1000; // Pause in milliseconds each round to review round result
 
+  /* SHARED DOCUMENT SELECTORS */
+  const playerScore = document.querySelector('#player-score');
+  const compScore = document.querySelector('#comp-score');
   const playerChoices = document.querySelector('#player-choices');
+  const playerChoicesButtons = Array.from(document.querySelectorAll('#player-choices .button'));
   const compChoices = document.querySelector('#comp-choices');
+  const compChoicesButtons = Array.from(document.querySelectorAll('#comp-choices .button'));
   const resultsZone = document.querySelector('#results-zone');
 
   const restartButtonHtml = `<div class="choice">
@@ -47,9 +54,6 @@
     if (result === 'WIN') playerWins++;
     if (result === 'LOSE') compWins++;
 
-    const playerScore = document.querySelector('#player-score');
-    const compScore = document.querySelector('#comp-score');
-
     playerScore.textContent = playerWins;
     compScore.textContent = compWins;
   }
@@ -69,6 +73,9 @@
   }
 
   function restartGame() {
+    const restartButton = document.querySelector('#restart');
+    restartButton.removeEventListener('click', restartGame);
+
     playerWins = 0;
     compWins = 0;
 
@@ -79,16 +86,39 @@
     resultsZone.setAttribute('hidden', '');
   }
 
-  function playRound(event) {
-    // TODO: Visually show player and comp choices for 2 seconds
-    // Disable buttons during the timeout, then reset
+  function resetButtons() {
+    playerChoicesButtons.forEach(button => {
+      button.classList.remove('selected');
+      button.removeAttribute('disabled', '');
+    });
 
+    compChoicesButtons.forEach(button => button.classList.remove('selected'));
+  }
+
+  function reviewRound(playerChoice, compChoice) {
+    const playerChoiceElem = document.querySelector(`#${playerChoice}`);
+    const compChoiceElem = document.querySelector(`#comp-${compChoice}`);
+
+    // Highlight player choice & disable other choices upon selection
+    playerChoiceElem.classList.add('selected');
+    playerChoicesButtons.forEach(button => button.setAttribute('disabled', ''));
+
+    // Highlight Computer choice
+    compChoiceElem.classList.add('selected');
+
+    // Work out round results and display them
+    const result = resolveRound(playerChoice, compChoice);
+    updateScores(result);
+
+    // Reset button states after a configurable amount of time for reviewing scores & choices
+    setTimeout(resetButtons, REVIEW_ROUND_PAUSE);
+  }
+
+  function playRound(event) {
     let playerChoice = event.target.value;
     let compChoice = computerPlay();
 
-    const result = resolveRound(playerChoice, compChoice);
-
-    updateScores(result);
+    reviewRound(playerChoice, compChoice)
 
     if (playerWins === SCORE_TO_WIN || compWins === SCORE_TO_WIN) {
       showResultsZone();

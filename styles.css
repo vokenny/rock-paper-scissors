@@ -79,6 +79,7 @@ main {
   min-width: 120px;
   max-width: 150px;
   font-size: 1.7em;
+  transition-duration: 150ms;
 }
 
 .button:hover {
@@ -91,8 +92,14 @@ main {
   cursor: default;
 }
 
-#player-choices .button:active {
+.button:active,
+.button.selected {
   border-color: var(--active-color);
+  color: #000000;
+}
+
+.button.selected {
+  transform: scale(1.1) !important;
 }
 
 #results-zone {

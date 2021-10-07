@@ -77,6 +77,7 @@
     compWins = 0;
 
     updateScores();
+    resetButtons();
 
     playerChoices.removeAttribute('hidden', '');
     compChoices.removeAttribute('hidden', '');

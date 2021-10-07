@@ -82,6 +82,7 @@
     playerChoices.removeAttribute('hidden', '');
     compChoices.removeAttribute('hidden', '');
     resultsZone.setAttribute('hidden', '');
+    resultsZone.innerHTML = '';
   }
 
   function resetButtons() {

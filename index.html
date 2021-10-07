@@ -4,9 +4,74 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="app.js" defer></script>
+
     <title>Rock, Paper, Scissors</title>
   </head>
   <body>
-    <script src="app.js"></script>
+    <header>
+      <h1 id="game-title">Rock, Paper, Scissors</h1>
+    </header>
+
+    <main>
+      <section id="game-zone">
+        <div id="player-zone">
+          <div class="scores">
+            <h2>Player</h2>
+            <h3 id="player-score" class="score">0</h3>
+          </div>
+
+          <div id="player-choices">
+            <div class="choice">
+              <button id="rock" class="button" value="rock">Rock</button>
+            </div>
+
+            <div class="choice">
+              <button id="paper" class="button" value="paper">Paper</button>
+            </div>
+
+            <div class="choice">
+              <button id="scissors" class="button" value="scissors">
+                Scissors
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="comp-zone">
+          <div class="scores">
+            <h2>Computer</h2>
+            <h3 id="comp-score" class="score">0</h3>
+          </div>
+
+          <div id="comp-choices">
+            <div class="choice">
+              <button id="comp-rock" class="button" disabled>Rock</button>
+            </div>
+
+            <div class="choice">
+              <button id="comp-paper" class="button" disabled>Paper</button>
+            </div>
+
+            <div class="choice">
+              <button id="comp-scissors" class="button" disabled>
+                Scissors
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="results-zone" hidden></div>
+      </section>
+    </main>
   </body>
 </html>

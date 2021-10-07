@@ -1,38 +1,24 @@
 (function () {
-  const CHOICES = ['ROCK', 'PAPER', 'SCISSORS'];
+  /* CONSTANTS */
+  const CHOICES = ['rock', 'paper', 'scissors'];
+  const SCORE_TO_WIN = 5;
+  const REVIEW_ROUND_PAUSE = 1000; // Pause in milliseconds each round to review round result
 
-  let rounds = 0;
+  /* SHARED DOCUMENT SELECTORS */
+  const playerScore = document.querySelector('#player-score');
+  const compScore = document.querySelector('#comp-score');
+  const playerChoices = document.querySelector('#player-choices');
+  const playerChoicesButtons = Array.from(document.querySelectorAll('#player-choices .button'));
+  const compChoices = document.querySelector('#comp-choices');
+  const compChoicesButtons = Array.from(document.querySelectorAll('#comp-choices .button'));
+  const resultsZone = document.querySelector('#results-zone');
+
+  const restartButtonHtml = `<div class="choice">
+      <button id="restart" class="button">Restart</button>
+    </div>`;
+
   let playerWins = 0;
   let compWins = 0;
-
-  function selectNumOfRounds() {
-    rounds = getPlayerInput(
-      'How many rounds do you want to play? (Up to 10)',
-      isValidNumOfRounds
-    );
-  }
-
-  function isValidNumOfRounds(input) {
-    const number = parseInt(input);
-    return (number > 0 && number <= 10);
-  }
-
-  function sanitisePlayerInput(input) {
-    return input.trim().toUpperCase();
-  }
-
-  function isValidPlayerChoice(choice) {
-    if (typeof choice === 'string') return CHOICES.includes(choice);
-  }
-
-  function getPlayerInput(message, validationHandler) {
-    const input = prompt(message);
-    const sanitisedInput = sanitisePlayerInput(input);
-    const validInput = validationHandler(sanitisedInput) ?
-      sanitisedInput : getPlayerInput(message, validationHandler);
-
-    return validInput;
-  }
 
   function randomNumber(max) {
     return Math.floor((Math.random() * max));
@@ -67,55 +53,85 @@
   function updateScores(result) {
     if (result === 'WIN') playerWins++;
     if (result === 'LOSE') compWins++;
+
+    playerScore.textContent = playerWins;
+    compScore.textContent = compWins;
   }
 
-  function announceResults(result, playerChoice, compChoice) {
-    console.log(result, `\nYou chose: ${playerChoice}\nComputer chose: ${compChoice}`);
-    console.log('Current scores:', `\nPlayer: ${playerWins}\nComputer: ${compWins}`);
+  function showResultsZone() {
+    const finalResult = playerWins > compWins ? 'PLAYER WINS' : 'COMPUTER WINS';
+    const resultsHtml = `<h1 id="final-score">${finalResult}</h1> ${restartButtonHtml}`
+
+    resultsZone.innerHTML = resultsHtml;
+
+    const restartButton = document.querySelector('#restart');
+    restartButton.addEventListener('click', restartGame);
+
+    playerChoices.setAttribute('hidden', '');
+    compChoices.setAttribute('hidden', '');
+    resultsZone.removeAttribute('hidden', '');
   }
 
-  function announceFinalResult() {
-    let finalResult = '';
+  function restartGame() {
+    const restartButton = document.querySelector('#restart');
+    restartButton.removeEventListener('click', restartGame);
 
-    switch (true) {
-      case (playerWins === compWins):
-        finalResult = 'DRAW';
-        break;
-      case (playerWins > compWins):
-        finalResult = 'PLAYER WINS';
-        break;
-      case (playerWins < compWins):
-        finalResult = 'COMPUTER WINS';
-        break;
-    }
+    playerWins = 0;
+    compWins = 0;
 
-    console.log('FINAL SCORES', `\nPlayer: ${playerWins}\nComputer: ${compWins}`);
-    console.log(finalResult);
+    updateScores();
+
+    playerChoices.removeAttribute('hidden', '');
+    compChoices.removeAttribute('hidden', '');
+    resultsZone.setAttribute('hidden', '');
   }
 
-  function playRounds() {
-    const playerChoice = getPlayerInput(
-      "What's your choice? Rock, Paper, or Scissors?",
-      isValidPlayerChoice
-    );
+  function resetButtons() {
+    playerChoicesButtons.forEach(button => {
+      button.classList.remove('selected');
+      button.removeAttribute('disabled', '');
+    });
 
-    const compChoice = computerPlay();
+    compChoicesButtons.forEach(button => button.classList.remove('selected'));
+  }
+
+  function reviewRound(playerChoice, compChoice) {
+    const playerChoiceElem = document.querySelector(`#${playerChoice}`);
+    const compChoiceElem = document.querySelector(`#comp-${compChoice}`);
+
+    // Highlight player choice & disable other choices upon selection
+    playerChoiceElem.classList.add('selected');
+    playerChoicesButtons.forEach(button => button.setAttribute('disabled', ''));
+
+    // Highlight Computer choice
+    compChoiceElem.classList.add('selected');
+
+    // Work out round results and display them
     const result = resolveRound(playerChoice, compChoice);
-
     updateScores(result);
-    announceResults(result, playerChoice, compChoice);
+
+    // Reset button states after a configurable amount of time for reviewing scores & choices
+    setTimeout(resetButtons, REVIEW_ROUND_PAUSE);
+  }
+
+  function playRound(event) {
+    let playerChoice = event.target.value;
+    let compChoice = computerPlay();
+
+    reviewRound(playerChoice, compChoice)
+
+    if (playerWins === SCORE_TO_WIN || compWins === SCORE_TO_WIN) {
+      showResultsZone();
+    }
   }
 
   /*** Game begins here ***/
 
-  selectNumOfRounds();
+  const playerButtons = Array.from(document.querySelectorAll('#player-choices .button'));
 
-  for (round = 0; round < rounds; round++) {
-    console.log('Round', round + 1);
-    playRounds();
-  }
-
-  announceFinalResult();
+  playerButtons.forEach(button => {
+    button.addEventListener('click', playRound);
+  });
 
   /*** Game ends here ***/
 
@@ -145,5 +161,4 @@
   // }
 
   // logCounts();
-
 })();
